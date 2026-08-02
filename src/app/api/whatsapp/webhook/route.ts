@@ -2028,7 +2028,7 @@ ${products.join('\n') || 'Sin productos.'}`;
     if (!isAdmin) {
       const promptTokens =
         Number(usageMetadata?.promptTokenCount || 0) ||
-        estimateTokensFromText(systemPrompt, ...history.map((m) => m.content), userText);
+        estimateTokensFromText([systemPrompt, ...history.map((m) => m.content), userText].join(' '));
       const responseTokens =
         Number(usageMetadata?.candidatesTokenCount || 0) ||
         estimateTokensFromText(aiReply);
