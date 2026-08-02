@@ -9,6 +9,10 @@ export interface AiConfig {
   adminAlertPhone?: string;
   testAsClient?: boolean;
   isEnabled?: boolean;
+  adminPrompt?: string;
+  customerPrompt?: string;
+  smartNotifications?: boolean;
+  messageThresholdForPause?: number;
 }
 
 export interface AiUsage {
@@ -17,6 +21,11 @@ export interface AiUsage {
   awaitingComprobante?: boolean;
   pendingOrderId?: string | null;
   hasNoPendingOrders?: boolean;
+  maintenanceNotifiedTs?: number;
+  blocked?: boolean;
+  spamBlocked?: boolean;
+  lastStallReplyTs?: number;
+  messageCount?: number;
 }
 
 export function estimateTokensFromText(text: string): number {
@@ -62,8 +71,9 @@ export async function resetKeniaUsage(phone: string): Promise<void> {
   delete usageMap[phone];
 }
 
-export async function hydratePrompt(prompt: string, vars: Record<string, string>): Promise<string> {
-  return prompt.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] || '');
+export async function hydratePrompt(prompt: string, vars: Record<string, string> | string): Promise<string> {
+  const varsMap = typeof vars === 'string' ? { SITE_URL: vars } : vars;
+  return prompt.replace(/\{\{(\w+)\}\}/g, (_, key) => varsMap[key] || '');
 }
 
 export async function getKeniaRuntimeSnapshot() {
