@@ -8,7 +8,6 @@ import { Search, ShoppingCart, ShoppingBag, User, Heart, Menu, X, MapPin, Receip
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/context/CartContext';
 import { useStoreSettings } from '@/hooks/useStoreSettings';
-import { useKeniaStatus } from '@/hooks/useKeniaStatus';
 
 import { getServices, getAppwriteConfig, MEDIA_BUCKET_ID, MEDIA_PREFIXES, formatPrice } from '@/lib/appwrite';
 import { getSectionConfigAsync, getSectionConfig, type SectionConfig } from '@/lib/section-config';
@@ -91,8 +90,7 @@ export default function Navbar1() {
   const [fabOpen, setFabOpen] = useState(false);
   const [navLogoUrl, setNavLogoUrl] = useState<string>('');
   const [navStoreName, setNavStoreName] = useState<string>('');
-  const { isEnabled: keniaEnabledState } = useKeniaStatus();
-  const keniaEnabled = false; // 🛑 DISABLED PER USER REQUEST
+  const keniaEnabled = false;
   const lottieRef = useRef<HTMLDivElement>(null);
   const lottieAnimRef = useRef<any>(null);
 

@@ -156,7 +156,7 @@ export async function GET(req: NextRequest) {
           // Send the approved template first
           await sendWhatsAppTemplate(
             formattedPhone,
-            'saludo_kenia',
+            'saludo_ia',
             'es_419',
             [
               {
@@ -193,7 +193,7 @@ export async function GET(req: NextRequest) {
           try {
             const historyMsg = sendError
               ? messageText
-              : `[Plantilla enviada] ¡Hola ${firstName}! 💕 Soy Kenia, del equipo de Kevin&Coco. ¿Cómo estás?`;
+              : `[Plantilla enviada] ¡Hola ${firstName}! 💕 Soy tu asesora del equipo de Kevin&Coco. ¿Cómo estás?`;
             await addToHistory(formattedPhone, 'assistant', historyMsg);
 
             if (targetOrderId) {

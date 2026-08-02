@@ -21,7 +21,7 @@ import { invalidateProductCache, cached, TTL } from '@/lib/cache';
 
 const PRODUCTS_BUCKET_ID = MEDIA_BUCKET_ID; // Backward compatibility
 
-const EMPTY: Partial<Product> = { NAME: '', DESCRIPTION: '', PRICE: 0, STOCK: 0, COST: 0, WHOLESALEPRICE: 0, WHOLESALEMINQUANTITY: 0, PACKQTY: 0, IMAGEURL: '', IMAGEURL2: '', IMAGEURL3: '', CATEGORYID: '' };
+const EMPTY: Partial<Product> = { NAME: '', DESCRIPTION: '', PRICE: 0, STOCK: 0, COST: 0, WHOLESALEPRICE: 0, WHOLESALEMINQUANTITY: 0, PACKQTY: 0, BOXPRICE: 0, BOXQTY: 0, IMAGEURL: '', IMAGEURL2: '', IMAGEURL3: '', CATEGORYID: '' };
 
 const FieldInput = ({ label, field, type = 'text', value, onChange }: { label: string; field: string; type?: string; value: any; onChange: (val: any) => void }) => (
   <div>
@@ -90,10 +90,6 @@ export default function ProductsPage() {
   const imageDrawerFileRefs = useRef<(HTMLInputElement | null)[]>([null, null, null, null]);
   const [aiLoading, setAiLoading] = useState<'title' | 'desc' | 'tabs' | 'all' | null>(null);
   const [aiTitles, setAiTitles] = useState<string[]>([]);
-  const [KeniaOpen, setKeniaOpen] = useState(false);
-  const [KeniaMessages, setKeniaMessages] = useState<{role: string; content: string}[]>([]);
-  const [KeniaInput, setKeniaInput] = useState('');
-  const [KeniaLoading, setKeniaLoading] = useState(false);
   const [brokenImages, setBrokenImages] = useState<Record<string, string[]>>({});
   const [brokenOnly, setBrokenOnly] = useState(false);
   const [syncingImages, setSyncingImages] = useState(false);
@@ -686,105 +682,6 @@ export default function ProductsPage() {
     return () => window.removeEventListener('yaxsel-data-change', handler);
   }, [search, catFilter, subCatFilter, stockFilter, load]);
 
-  const sendKeniaMessage = async () => {
-    if (!KeniaInput.trim() || KeniaLoading) return;
-    const userMsg = KeniaInput.trim();
-    setKeniaInput('');
-    const contextPrefix = modal ? `[Contexto: Estoy editando el producto "${modal.data.NAME}" (ID: ${(modal.data as Product).$id}, Precio: ${modal.data.PRICE}, Stock: ${modal.data.STOCK}, Categoría: ${categories.find(c => c.$id === modal.data.CATEGORYID)?.name || 'Sin categoría'})] ` : '';
-    const newMessages = [...KeniaMessages, { role: 'user', content: contextPrefix + userMsg }];
-    setKeniaMessages(newMessages);
-    setKeniaLoading(true);
-    try {
-      const res = await fetch('/api/ai-sidekick', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
-      });
-      const data = await res.json();
-      const assistantMsg = data.text || data.response || data.message || 'No pude procesar la solicitud.';
-      setKeniaMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
-      // Execute actions if present
-      if (data.actions) {
-        for (const action of data.actions) {
-          if (action.type === 'update' && modal) {
-            // Apply updates to the current product being edited
-            setModal(m => m ? { ...m, data: { ...m.data, ...action.data } } : m);
-          }
-        }
-      }
-      // Check for inline action tags and execute them
-      const createMatch = assistantMsg.match(/\[ACTION:CREATE_PRODUCT\]([\s\S]*?)\[\/ACTION\]/);
-      const updateMatch = assistantMsg.match(/\[ACTION:UPDATE_PRODUCT\]([\s\S]*?)\[\/ACTION\]/);
-      const deleteMatch = assistantMsg.match(/\[ACTION:DELETE_PRODUCT\]([\s\S]*?)\[\/ACTION\]/);
-      if (createMatch || updateMatch || deleteMatch) {
-        try {
-          if (createMatch) {
-            const actionData = JSON.parse(createMatch[1]);
-            const res = await fetch('/api/products/create', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                name: actionData.name,
-                price: actionData.price || 0,
-                description: actionData.description || '',
-                category: actionData.category || '',
-                stock: actionData.stock || 0,
-                tags: actionData.tags || '',
-                sku: actionData.sku || '',
-                barcode: actionData.barcode || '',
-              }),
-            });
-            const result = await res.json();
-            if (result.success) {
-              setKeniaMessages(prev => [...prev, { role: 'assistant', content: `✅ Producto "${actionData.name}" creado exitosamente.` }]);
-              load();
-            } else {
-              setKeniaMessages(prev => [...prev, { role: 'assistant', content: `❌ Error al crear: ${result.error}` }]);
-            }
-          } else if (updateMatch) {
-            const actionData = JSON.parse(updateMatch[1]);
-            if (modal) {
-              setModal(m => m ? { ...m, data: { ...m.data, ...actionData } } : m);
-            } else if (actionData.name) {
-              const res = await fetch('/api/products/update', {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(actionData),
-              });
-              const result = await res.json();
-              if (result.success) {
-                setKeniaMessages(prev => [...prev, { role: 'assistant', content: `✅ Producto "${actionData.name}" actualizado.` }]);
-              } else {
-                setKeniaMessages(prev => [...prev, { role: 'assistant', content: `❌ Error: ${result.error}` }]);
-              }
-            }
-            load();
-          } else if (deleteMatch) {
-            const actionData = JSON.parse(deleteMatch[1]);
-            const res = await fetch('/api/products/delete', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ name: actionData.name }),
-            });
-            const result = await res.json();
-            if (result.success) {
-              setKeniaMessages(prev => [...prev, { role: 'assistant', content: `🗑️ Producto "${actionData.name}" eliminado.` }]);
-              load();
-            } else {
-              setKeniaMessages(prev => [...prev, { role: 'assistant', content: `❌ Error al eliminar: ${result.error}` }]);
-            }
-          }
-        } catch (e) {
-          console.error('Error executing inline action:', e);
-        }
-      }
-    } catch {
-      setKeniaMessages(prev => [...prev, { role: 'assistant', content: 'Error al conectar con Kenia.' }]);
-    } finally {
-      setKeniaLoading(false);
-    }
-  };
-
   const openAdd = () => setModal({ mode: 'add', data: { ...EMPTY, _barcode: '', _sku: '', _details: '', _usage: '', _ingredients: '' } });
   const openEdit = (p: Product) => {
     const tabs = getCustomTabsFromFeatures(p.FEATURES) ?? {};
@@ -825,6 +722,7 @@ export default function ProductsPage() {
     if (!modal) return;
     const d = modal.data;
     if (!d.NAME?.trim()) { alert('El nombre es requerido'); return; }
+    if (!d.WHOLESALEPRICE || Number(d.WHOLESALEPRICE) <= 0) { alert('El Precio Paquete / Mayor es obligatorio'); return; }
     if (d._sku?.trim()) {
       const skuInput = d._sku.trim().toLowerCase();
       
@@ -868,6 +766,8 @@ export default function ProductsPage() {
         WHOLESALEPRICE: Math.round(Number(d.WHOLESALEPRICE)) || 0,
         WHOLESALEMINQUANTITY: Math.round(Number(d.WHOLESALEMINQUANTITY)) || 0,
         PACKQTY: Math.round(Number(d.PACKQTY)) || 0,
+        BOXPRICE: Math.round(Number(d.BOXPRICE)) || 0,
+        BOXQTY: Math.round(Number(d.BOXQTY)) || 0,
         IMAGEURL: d.IMAGEURL || '', IMAGEURL2: d.IMAGEURL2 || '',
         IMAGEURL3: d.IMAGEURL3 || '',
         CATEGORYID: d.CATEGORYID || '',
@@ -1573,7 +1473,7 @@ export default function ProductsPage() {
           {/* Header bar */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <button onClick={() => { setModal(null); setKeniaOpen(false); setKeniaMessages([]); }} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 transition">
+              <button onClick={() => { setModal(null); }} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 transition">
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
@@ -1606,10 +1506,6 @@ export default function ProductsPage() {
                   <Eye className="w-4 h-4" /> Ver Producto
                 </a>
               )}
-              <button onClick={() => setKeniaOpen(!KeniaOpen)}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition ${KeniaOpen ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800 hover:bg-gray-100 border border-gray-200'}`}>
-                <MessageSquare className="w-4 h-4" /> Preguntar a Kenia
-              </button>
               <button onClick={() => setModal(null)} className="px-4 py-2 rounded-xl border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition">Cancelar</button>
               <button onClick={save} disabled={isSaving} className="px-5 py-2 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-gray-900 transition disabled:opacity-60 flex items-center gap-2">
                 {isSaving ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Guardando...</> : 'Guardar'}
@@ -1619,7 +1515,7 @@ export default function ProductsPage() {
 
           <div className="flex gap-6">
             {/* Main editor area */}
-            <div className={`flex-1 space-y-6 ${KeniaOpen ? 'max-w-[calc(100%-380px)]' : ''}`}>
+            <div className="flex-1 space-y-6">
               {/* Product image + basic info */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <div className="flex gap-6 flex-col lg:flex-row">
@@ -1714,11 +1610,82 @@ export default function ProductsPage() {
                 <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-gray-800" /> Precios e Inventario
                 </h3>
+                {/* ── 3 Niveles de Precio ── */}
+                <div className="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-200">
+                  <p className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-1.5">
+                    <Boxes className="w-3.5 h-3.5 text-gray-600" /> Precios por Volumen (3 niveles)
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Precio Mayor (obligatorio) */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Precio Paquete / Mayor (CLP) <span className="text-red-500">*</span></label>
+                      <input type="number" value={modal.data.WHOLESALEPRICE ?? ''} onChange={e => setModal(m => m ? { ...m, data: { ...m.data, WHOLESALEPRICE: Number(e.target.value) } } : m)}
+                        className={`w-full px-3 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-800 ${!modal.data.WHOLESALEPRICE ? 'border-red-300 bg-red-50' : 'border-gray-200'}`} />
+                      <p className="text-[10px] text-gray-500 mt-1">Aplica desde {modal.data.PACKQTY || 0} un. · Obligatorio</p>
+                    </div>
+                    {/* Precio Detalle (calculado = mayor × 1.5) */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Precio Detalle (auto)</label>
+                      <div className="relative">
+                        <input type="number" value={(() => {
+                          const mayor = Number(modal.data.WHOLESALEPRICE) || 0;
+                          return mayor > 0 ? Math.round(mayor * 1.5) : 0;
+                        })()} readOnly
+                          className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm bg-gray-100 text-gray-600 cursor-not-allowed" />
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 font-medium">= mayor × 1.5</span>
+                      </div>
+                      <p className="text-[10px] text-gray-500 mt-1">Aplica desde 1 un.</p>
+                    </div>
+                    {/* Precio Embalaje / Caja (opcional) */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Precio Embalaje / Caja (CLP) <span className="text-gray-400 text-[9px]">opcional</span></label>
+                      <input type="number" value={modal.data.BOXPRICE ?? ''} onChange={e => setModal(m => m ? { ...m, data: { ...m.data, BOXPRICE: Number(e.target.value) } } : m)}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-800" />
+                      <p className="text-[10px] text-gray-500 mt-1">Aplica desde {modal.data.BOXQTY || (modal.data.PACKQTY || 0) * 2} un.</p>
+                    </div>
+                  </div>
+                  {/* Cantidad por embalaje (solo si hay precio caja) */}
+                  {Number(modal.data.BOXPRICE) > 0 && (
+                    <div className="mt-3">
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Cantidad por embalaje (un. mínimas para precio caja)</label>
+                      <input type="number" value={modal.data.BOXQTY ?? ''} onChange={e => setModal(m => m ? { ...m, data: { ...m.data, BOXQTY: Number(e.target.value) } } : m)}
+                        placeholder={`Default: ${(modal.data.PACKQTY || 0) * 2}`}
+                        className="w-full max-w-xs px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-800" />
+                      <p className="text-[10px] text-gray-500 mt-1">Si se deja vacío, usa {(modal.data.PACKQTY || 0) * 2} (paquete × 2)</p>
+                    </div>
+                  )}
+                  {/* Preview de los 3 niveles */}
+                  {(() => {
+                    const mayor = Number(modal.data.WHOLESALEPRICE) || 0;
+                    const detalle = mayor > 0 ? Math.round(mayor * 1.5) : 0;
+                    const caja = Number(modal.data.BOXPRICE) || 0;
+                    const packQty = Number(modal.data.PACKQTY) || 0;
+                    const boxQty = Number(modal.data.BOXQTY) || 0;
+                    const cajaMin = boxQty > packQty ? boxQty : packQty * 2;
+                    if (!mayor || !packQty) return null;
+                    return (
+                      <div className="mt-3 flex flex-wrap gap-2 text-[10px]">
+                        <span className="px-2 py-1 bg-white rounded-lg border border-gray-200 text-gray-700">
+                          <strong>Detalle:</strong> ${detalle.toLocaleString('es-CL')} (1–{packQty - 1} un.)
+                        </span>
+                        <span className="px-2 py-1 bg-white rounded-lg border border-gray-200 text-gray-700">
+                          <strong>Mayor:</strong> ${mayor.toLocaleString('es-CL')} ({packQty}–{cajaMin - 1} un.)
+                        </span>
+                        {caja > 0 && caja < mayor && (
+                          <span className="px-2 py-1 bg-white rounded-lg border border-gray-200 text-gray-700">
+                            <strong>Caja:</strong> ${caja.toLocaleString('es-CL')} ({cajaMin}+ un.)
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">Precio Normal (CLP)</label>
                     <input type="number" value={modal.data.PRICE ?? ''} onChange={e => setModal(m => m ? { ...m, data: { ...m.data, PRICE: Number(e.target.value) } } : m)}
                       className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-800" />
+                    <p className="text-[10px] text-gray-400 mt-1">Solo fallback sin volumen</p>
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">Costo</label>
@@ -1918,89 +1885,6 @@ export default function ProductsPage() {
                 </div>
               </div>
             </div>
-
-            {/* Kenia side panel */}
-            {KeniaOpen && (
-              <div className="w-[360px] shrink-0 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-                <div className="flex items-center justify-between p-4 border-b border-gray-100">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white text-xs font-bold">Y</div>
-                    <span className="text-sm font-semibold text-gray-800">Kenia</span>
-                    <span className="text-[10px] text-gray-400">para este producto</span>
-                  </div>
-                  <button onClick={() => setKeniaOpen(false)} className="p-1 rounded-lg hover:bg-gray-100 text-gray-400"><X className="w-4 h-4" /></button>
-                </div>
-                <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                  {KeniaMessages.length === 0 && (
-                    <div className="text-center py-8">
-                      <div className="w-12 h-12 mx-auto rounded-full bg-gray-50 flex items-center justify-center mb-3">
-                        <MessageSquare className="w-6 h-6 text-gray-800" />
-                      </div>
-                      <p className="text-sm text-gray-500">Pregúntale algo sobre este producto</p>
-                      <p className="text-xs text-gray-400 mt-1">Kenia ya sabe qué producto estás editando</p>
-                      <div className="mt-4 space-y-2">
-                        {['Mejora la descripción', 'Sugiere un precio competitivo', 'Genera tags para SEO'].map(s => (
-                          <button key={s} onClick={() => { setKeniaInput(s); }} className="block w-full text-left text-xs px-3 py-2 rounded-lg bg-gray-50 hover:bg-gray-50 text-gray-600 hover:text-gray-800 transition">
-                            {s}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {KeniaMessages.map((msg, i) => (
-                    <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[85%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
-                        {msg.content}
-                      </div>
-                    </div>
-                  ))}
-                  {KeniaLoading && (
-                    <div className="flex justify-start">
-                      <div className="bg-gray-100 px-3 py-2 rounded-xl text-sm text-gray-500 flex items-center gap-1">
-                        <Loader2 className="w-3 h-3 animate-spin" /> Pensando...
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="p-3 border-t border-gray-100">
-                  <div className="flex gap-2">
-                    <input type="file" id="Kenia-file-input" accept="image/*" className="hidden" onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      setKeniaLoading(true);
-                      try {
-                        const formData = new FormData();
-                        formData.append('file', file);
-                        if (modal?.data?.$id) formData.append('productId', (modal.data as Product).$id);
-                        formData.append('imageField', 'IMAGEURL');
-                        const res = await fetch('/api/products/upload-image', { method: 'POST', body: formData });
-                        const data = await res.json();
-                        if (data.success) {
-                          setKeniaMessages(prev => [...prev, { role: 'user', content: '📷 Imagen enviada' }, { role: 'assistant', content: '✅ Imagen subida y asignada al producto.' }]);
-                          if (modal?.data) setModal(m => m ? { ...m, data: { ...m.data, IMAGEURL: data.imageUrl } } : m);
-                          load();
-                        } else {
-                          setKeniaMessages(prev => [...prev, { role: 'assistant', content: `❌ Error: ${data.error}` }]);
-                        }
-                      } catch { setKeniaMessages(prev => [...prev, { role: 'assistant', content: '❌ Error al subir imagen.' }]); }
-                      finally { setKeniaLoading(false); (e.target as HTMLInputElement).value = ''; }
-                    }} />
-                    <button onClick={() => document.getElementById('Kenia-file-input')?.click()} disabled={KeniaLoading}
-                      className="p-2 rounded-xl bg-gray-100 text-gray-500 hover:bg-gray-200 transition disabled:opacity-50" title="Subir imagen">
-                      <ImagePlus className="w-4 h-4" />
-                    </button>
-                    <input value={KeniaInput} onChange={e => setKeniaInput(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendKeniaMessage(); } }}
-                      placeholder="Escribe tu pregunta..."
-                      className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-800" />
-                    <button onClick={sendKeniaMessage} disabled={KeniaLoading || !KeniaInput.trim()}
-                      className="p-2 rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50">
-                      <MessageSquare className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -2029,7 +1913,7 @@ export default function ProductsPage() {
               <Plus className="w-4 h-4" /> Agregar
             </button>
             <button onClick={() => setAiCategorizeModal(true)} className="flex items-center gap-1.5 px-3 py-2 bg-gray-900 text-white rounded-xl text-sm font-semibold hover:bg-gray-800 transition shadow-sm" title="Categorizar productos usando IA">
-              <Sparkles className="w-4 h-4" /> Kenia
+              <Sparkles className="w-4 h-4" /> IA
             </button>
             <button onClick={() => load(false)} disabled={isLoading} className="p-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-50 transition text-gray-600">
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -2456,10 +2340,10 @@ export default function ProductsPage() {
                         <button
                           onClick={() => {
                             openEdit(p);
-                            setTimeout(() => setKeniaOpen(true), 100);
+                            setTimeout(() => {}, 100);
                           }}
                           className="relative shrink-0 group"
-                          title="Preguntar a Kenia AI"
+                          title="Categorizar con IA"
                         >
                           <div className="w-10 h-10 flex items-center justify-center bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-200 text-gray-900">
                             <Sparkles className="w-5 h-5 animate-pulse" />
@@ -2567,7 +2451,7 @@ export default function ProductsPage() {
                           )}
                           {p.WHOLESALEPRICE ? (
                             <p className="text-xs text-gray-900">
-                              Mayor: {fmt(p.WHOLESALEPRICE)} × {p.WHOLESALEMINQUANTITY}
+                              Det: {fmt(Math.round(p.WHOLESALEPRICE * 1.5))} · Mayor: {fmt(p.WHOLESALEPRICE)}{p.BOXPRICE ? ` · Caja: ${fmt(p.BOXPRICE)}` : ''}
                             </p>
                           ) : null}
                           {!p.IMAGEURL && <p className="text-[10px] text-amber-500 font-medium">sin imagen</p>}
@@ -2588,7 +2472,14 @@ export default function ProductsPage() {
                     </td>
                     <td className="px-4 py-3 text-gray-600 hidden sm:table-cell">{catName(p.CATEGORYID)}</td>
                     <td className="px-4 py-3 text-right">
-                      {p.CURRENTPRICE && p.CURRENTPRICE < p.PRICE ? (
+                      {p.WHOLESALEPRICE && p.PACKQTY ? (
+                        <div>
+                          <span className="font-semibold text-gray-900">{fmt(Math.round(p.WHOLESALEPRICE * 1.5))}</span>
+                          <p className="text-[10px] text-gray-400 mt-0.5 text-right">
+                            Mayor: {fmt(p.WHOLESALEPRICE)}{p.BOXPRICE ? ` · Caja: ${fmt(p.BOXPRICE)}` : ''}
+                          </p>
+                        </div>
+                      ) : p.CURRENTPRICE && p.CURRENTPRICE < p.PRICE ? (
                         <div>
                           <span className="font-semibold text-red-600">{fmt(p.CURRENTPRICE)}</span>
                           <span className="text-xs text-gray-400 line-through ml-1">{fmt(p.PRICE)}</span>
@@ -3060,7 +2951,7 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {/* AI Categorization Modal (Kenia) */}
+      {/* AI Categorization Modal */}
       {aiCategorizeModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-all duration-300">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[85vh]">
@@ -3071,7 +2962,7 @@ export default function ProductsPage() {
                   <Sparkles className="w-5 h-5 animate-pulse" />
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900 text-base">Categorización Inteligente con Kenia</p>
+                  <p className="font-bold text-gray-900 text-base">Categorización Inteligente con IA</p>
                   <p className="text-xs text-gray-500 mt-0.5">Organiza tu catálogo de forma automática usando Inteligencia Artificial</p>
                 </div>
               </div>
@@ -3094,7 +2985,7 @@ export default function ProductsPage() {
                     <div>
                       <p className="font-semibold">¿Cómo funciona?</p>
                       <p className="text-gray-800/95 mt-1 leading-relaxed text-xs">
-                        Kenia analizará el título y la descripción de tus productos para recomendarte la categoría y la subcategoría que mejor se ajusten de entre las que tienes registradas. Luego podrás revisar las propuestas antes de aplicarlas.
+                        La IA analizará el título y la descripción de tus productos para recomendarte la categoría y la subcategoría que mejor se ajusten de entre las que tienes registradas. Luego podrás revisar las propuestas antes de aplicarlas.
                       </p>
                     </div>
                   </div>
@@ -3133,7 +3024,7 @@ export default function ProductsPage() {
                 <div className="flex flex-col items-center justify-center py-16 space-y-6 max-w-md mx-auto">
                   <div className="w-16 h-16 rounded-full border-4 border-gray-100 border-t-gray-900 animate-spin" />
                   <div className="text-center">
-                    <p className="font-bold text-gray-800 text-lg">Kenia está analizando tu catálogo...</p>
+                    <p className="font-bold text-gray-800 text-lg">Analizando tu catálogo...</p>
                     <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
                       Este proceso se realiza en lotes eficientes de 10 productos para garantizar la máxima precisión. Por favor, no cierres esta ventana.
                     </p>
@@ -3174,7 +3065,7 @@ export default function ProductsPage() {
                             <th className="p-4">Producto</th>
                             <th className="p-4">Categoría Sugerida</th>
                             <th className="p-4">Subcategoría Sugerida</th>
-                            <th className="p-4">Justificación de Kenia</th>
+                            <th className="p-4">Justificación</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 text-sm">

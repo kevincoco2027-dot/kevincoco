@@ -9,7 +9,6 @@ import { useStoreSettings } from '@/hooks/useStoreSettings';
 import { isAdminEmail } from '@/lib/admin-access';
 import { LogOut, Menu, X, ChevronDown, ChevronRight, RefreshCw } from 'lucide-react';
 import GlobalSearch from '@/components/admin/GlobalSearch';
-import AISidekick from '@/components/admin/AISidekick';
 import gsap from 'gsap';
 
 /* ─────────────────────────── custom SVG icons ─────────────────────────── */
@@ -104,12 +103,6 @@ const NAV_GROUPS: NavGroup[] = [
       { href: '/admin/notifications', label: 'Notificaciones', icon: Ico.Notifs, badge: 'notifs' },
     ]},
     { href: '/admin/wholesale', label: 'Mayoristas',   icon: Ico.Mayoristas, badge: 'wholesale' },
-    { href: '/admin/ia', label: 'Kenia IA', icon: Ico.Sparkles, children: [
-      { href: '/admin/ia',           label: 'Centro de control', icon: Ico.Sparkles },
-      { href: '/admin/ia/whatsapp',  label: 'WhatsApp',          icon: Ico.Soporte },
-      { href: '/admin/ia/cotizacion', label: 'Cotización',       icon: Ico.Plantillas },
-      { href: '/admin/ia/appwrite',  label: 'Appwrite Monitor',  icon: Ico.Server },
-    ]},
   ]},
   { label: 'Configuración', defaultOpen: false, items: [
     { href: '/admin/engagement/plantillas', label: 'Plantillas',       icon: Ico.Plantillas },
@@ -128,7 +121,7 @@ const NAV_GROUPS: NavGroup[] = [
 /* ═══════════════════ IA Top Bar Button ═══════════════════ */
 const IA_PHRASES = [
   '¿Necesitas ayuda?',
-  'Habla con Kenia',
+  'Habla con IA',
   'Crear y editar productos',
   'Consultar pedidos',
   'Niveles de inventario',
@@ -218,8 +211,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { unlimitedStock } = useStoreSettings();
   const router   = useRouter();
   const pathname = usePathname();
-  const isFullScreenIAWhatsApp = pathname === '/admin/ia/whatsapp';
-
   const filteredNavGroups = NAV_GROUPS.map(group => {
     if (group.label === 'General') {
       const items = group.items.map(item => {
@@ -255,7 +246,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen,     setSidebarOpen]     = useState(false);
   const [userMenuOpen,    setUserMenuOpen]    = useState(false);
   const [userMenuClosing, setUserMenuClosing] = useState(false);
-  const [sidekickOpen,    setSidekickOpen]    = useState(false);
   const userMenuRef      = useRef<HTMLDivElement>(null);
   const userMenuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pendingOrders,    setPendingOrders]    = useState(0);
@@ -843,25 +833,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <>
       <style>{topbarShineCss}</style>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', background: isFullScreenIAWhatsApp ? '#111b21' : '#1a1a1a', overflow: 'hidden' }}>
-      {isFullScreenIAWhatsApp ? (
-        <>
-          <div className="admin-content-wrap" ref={contentWrapRef} style={{
-            flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0, height: '100%', background: '#111b21',
-            display: 'flex', flexDirection: 'column',
-          }}>
-            <main ref={contentRef} className="admin-main-content" style={{
-              position: 'relative', zIndex: 1, flex: 1, height: '100%',
-              overflow: 'hidden',
-              padding: 0, background: '#111b21',
-              margin: 0,
-            }}>
-              {children}
-            </main>
-          </div>
-          <AISidekick open={sidekickOpen} onClose={() => setSidekickOpen(false)} />
-        </>
-      ) : (
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', background: '#1a1a1a', overflow: 'hidden' }}>
       <>
       {/* ═══ Top bar — unified with sidebar ═══ */}
       <header style={{
@@ -899,12 +871,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Right side */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-
-          {/* IA Sidekick button with typing phrases */}
-          <IATopBarButton isOpen={sidekickOpen} onClick={() => {
-            setSidekickOpen(true);
-            if (pathname !== '/admin/ia') router.push('/admin/ia');
-          }} />
 
           {/* Notifications */}
           <Link href="/admin/notifications" style={{
@@ -1027,11 +993,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {children}
           </main>
         </div>
-        {/* IA Sidekick panel */}
-        <AISidekick open={sidekickOpen} onClose={() => setSidekickOpen(false)} />
       </div>
       </>
-      )}
     </div>
     </>
   );

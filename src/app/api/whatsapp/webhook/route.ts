@@ -47,7 +47,7 @@ let _adminContextCache: { data: { recentOrders: any[], productsRes: any }; ts: n
 const ADMIN_CACHE_TTL = 5 * 60 * 1000; // 5 minutes for Admin Context
 
 // ─── Admin system prompt ───────────────────────────────────────────────────────
-const ADMIN_PROMPT = `Eres Kenia IA, el asistente administrativo de Kevin&Coco por WhatsApp.
+const ADMIN_PROMPT = `Eres el asistente administrativo de Kevin&Coco por WhatsApp.
 Estás hablando con el DUEÑO/ADMINISTRADOR de la tienda.
 
 ## Capacidades de Admin:
@@ -117,7 +117,7 @@ Y preguntar siempre: "¿Deseas que notifique al cliente para que elija reemplazo
 Los datos de productos y pedidos te serán inyectados en el contexto.`;
 
 // ─── Customer system prompt ────────────────────────────────────────────────────
-const CUSTOMER_PROMPT = `Eres Kenia, asesora de ventas y experta en maquillaje de la tienda Kevin&Coco en Chile.
+const CUSTOMER_PROMPT = `Eres la asesora de ventas y experta en maquillaje de la tienda Kevin&Coco en Chile.
 Eres súper carismática, amable y hablas como una vendedora experta en belleza. Hablas en español chileno natural.
 ¡NUNCA digas que eres un asistente virtual o un bot! Actúa 100% como una persona real del equipo de ventas.
 
@@ -166,14 +166,14 @@ function needsDbContext(text: string): boolean {
   const cleaned = text.toLowerCase().trim();
   if (cleaned.length < 3) return false;
 
-  const pureChitchat = /^(hola|buenos\s+dias|buenas\s+tardes|buenas\s+noches|gracias|muchas\s+gracias|adios|chao|ok|okay|listo|perfecto|super|genial|hola\s+kenia|kenia|como\s+estas|cómo\s+estás|que\s+tal|qué\s+tal)$/i;
+  const pureChitchat = /^(hola|buenos\s+dias|buenas\s+tardes|buenas\s+noches|gracias|muchas\s+gracias|adios|chao|ok|okay|listo|perfecto|super|genial|como\s+estas|cómo\s+estás|que\s+tal|qué\s+tal)$/i;
   return !pureChitchat.test(cleaned);
 }
 
 // Helper: detect if a text is a greeting
 function isGreeting(text: string): boolean {
   const cleaned = text.toLowerCase().trim();
-  return /^(hola|buenos\s+dias|buenas\s+tardes|buenas\s+noches|hey|hi|holi|hola\s+kenia|holaa|hola+a|ola|ola\s+kenia)\b/i.test(cleaned)
+  return /^(hola|buenos\s+dias|buenas\s+tardes|buenas\s+noches|hey|hi|holi|holaa|hola+a|ola)\b/i.test(cleaned)
     || /^(hola|buenos\s+dias|buenas\s+tardes|buenas\s+noches|hey|hi|holi|holaa|ola)$/i.test(cleaned);
 }
 
@@ -381,7 +381,7 @@ async function sendWelcomeMenu(phone: string, customerName: string, token: strin
   const firstName = customerName.split(' ')[0] || customerName || 'bella';
   const body = customBody || ('Estas son las cosas que puedo hacer por ti, ' + firstName + ' 🌸 toca una opción para saber más:');
   await sendWhatsAppList(phone, {
-    header: '✨ Bienvenida a Kenia',
+    header: '✨ Bienvenida a Kevin&Coco',
     body,
     footer: 'Kevin&Coco · Tu tienda de belleza',
     buttonText: 'Opciones de Ayuda 🌸',
@@ -663,7 +663,7 @@ export async function POST(req: NextRequest) {
     // Procesar comandos de modo cliente
     if (isAdmin && userText.toUpperCase() === 'MODO CLIENTE') {
       await recordKeniaUsage(fromPhone, { testAsClient: true });
-      const reply = 'Kenia: Modo cliente activado para ti. Te trataré como a un cliente a partir de ahora, incluso si la IA está desactivada. Escribe "MODO ADMIN" para volver al modo administrador. 🌸';
+      const reply = 'IA: Modo cliente activado para ti. Te trataré como a un cliente a partir de ahora, incluso si la IA está desactivada. Escribe "MODO ADMIN" para volver al modo administrador. 🌸';
       await sendWhatsAppMessage(fromPhone, reply, WA_TOKEN);
       await addToHistory(fromPhone, 'assistant', reply, msgId);
       return NextResponse.json({ status: 'mode_client_activated' });
@@ -671,7 +671,7 @@ export async function POST(req: NextRequest) {
 
     if (isAdmin && userText.toUpperCase() === 'MODO ADMIN') {
       await recordKeniaUsage(fromPhone, { testAsClient: false });
-      const reply = 'Kenia: Modo administrador reactivado. Volverás a recibir los reportes y poder ejecutar comandos de administración. 🛡️';
+      const reply = 'IA: Modo administrador reactivado. Volverás a recibir los reportes y poder ejecutar comandos de administración. 🛡️';
       await sendWhatsAppMessage(fromPhone, reply, WA_TOKEN);
       await addToHistory(fromPhone, 'assistant', reply, msgId);
       return NextResponse.json({ status: 'mode_admin_activated' });

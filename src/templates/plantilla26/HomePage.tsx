@@ -17,44 +17,32 @@ import { useEffect, useRef, useState } from 'react';
 const SHOPIFY_BASE = '/shopify/plantilla26/assets';
 
 /* ── Clases reales del <body> del theme original (capturadas por FOLLA) ── */
-const CAPTURED_BODY_CLASS = 'template-index';
+const CAPTURED_BODY_CLASS = 'template-index loaded has-modal-open';
 
 /* ── CSS files: ORDEN CRÍTICO — inline primero, luego core, luego secciones ── */
 const CSS_FILES = [
   `/shopify/plantilla26/assets/css/inline/index-inline-1.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/screen.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/theme-xtra.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-print.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-menu.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shopifycloud/portable-wallets/latest/accelerated-checkout-backwards-compat.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-announcement.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-l4ne.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/theme-accessible.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-hovers.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-hovers-hack.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-validation.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-product-scrolled.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-select.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-filters.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-panels.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-compare.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-datepicker.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-search.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-ui-sliders.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-fancybox.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-hotspots.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-marquee.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-popups.css`,
-  `/shopify/plantilla26/assets/css/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/async-product-variants.css`
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.css`,
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/apps.css`,
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.css`,
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.css`,
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.css`,
+  `/shopify/plantilla26/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/blog.css`
 ];
 
 /* ── JS files: solo los críticos del tema ── */
 type JsFile = { src: string; module?: boolean };
 const JS_FILES: JsFile[] = [
-  { src: `/shopify/plantilla26/assets/js/cdn.shopify.com/extensions/ef6faa8b-d1e4-4561-ac65-dfdcd79cf8f1/forms-2433/assets/shopify-forms-loader.js` },
-  { src: `/shopify/plantilla26/assets/js/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/scripts.js` },
-  { src: `/shopify/plantilla26/assets/js/xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/custom.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/vendor.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/tab-attention.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/cart.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/gift-wrapping.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/search.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.js` },
+  { src: `/shopify/plantilla26/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/instant-page.js`, module: true },
   { src: `/shopify/plantilla26/assets/js/cdn.shopify.com/storefront/standard-actions.js`, module: true }
 ];
 
@@ -62,181 +50,44 @@ const JS_FILES: JsFile[] = [
 const FONT_FACE_CSS = `
 @font-face {
   font-family: Inter;
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.d15c916037fee1656886aab64725534609d62cc8.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.c88637171fecf10ab2d88c89dbf06f41a1ae8be5.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.af8052d517e0c9ffac7b814872cecc27ae1fa132.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n1.d6922fc1524d5070cfbded04544fe03b84246904.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n1.4a488d8300a3cf27d2b5e3a3b05110d1df51da98.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n2.63379874490a31b1ac686c7c9582ebe8c6a05610.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n2.f9faac0477da33ae7acd0ad3758c9bcf18cab36b.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n3.6faba940d2e90c9f1c2e0c5c2750b84af59fecc0.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n3.413aa818ec2103383c4ac7c3744c464d04b4db49.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.af8052d517e0c9ffac7b814872cecc27ae1fa132.woff") format("woff");
+  src: url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2") format("woff2"),
+       url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n4.af8052d517e0c9ffac7b814872cecc27ae1fa132.woff") format("woff");
 }
 @font-face {
   font-family: Inter;
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n5.5332a76bbd27da00474c136abb1ca3cbbf259068.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n6.771af0474a71b3797eb38f3487d6fb79d43b6877.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n6.88c903d8f9e157d48b73b7777d0642925bcecde7.woff") format("woff");
+  src: url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2") format("woff2"),
+       url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n5.5332a76bbd27da00474c136abb1ca3cbbf259068.woff") format("woff");
 }
 @font-face {
   font-family: Inter;
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n7.02711e6b374660cfc7915d1afc1c204e633421e4.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n7.6dab87426f6b8813070abd79972ceaf2f8d3b012.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.d15c916037fee1656886aab64725534609d62cc8.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.c88637171fecf10ab2d88c89dbf06f41a1ae8be5.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n9.5eeac4b640934cb12c98bb58e5b212c8a842a731.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n9.a68b28f7e46ea1faab81e409809ee4919dd6e3f0.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n1.d6922fc1524d5070cfbded04544fe03b84246904.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n1.4a488d8300a3cf27d2b5e3a3b05110d1df51da98.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n2.63379874490a31b1ac686c7c9582ebe8c6a05610.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n2.f9faac0477da33ae7acd0ad3758c9bcf18cab36b.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n3.6faba940d2e90c9f1c2e0c5c2750b84af59fecc0.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n3.413aa818ec2103383c4ac7c3744c464d04b4db49.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n4.af8052d517e0c9ffac7b814872cecc27ae1fa132.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n5.5332a76bbd27da00474c136abb1ca3cbbf259068.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n6.771af0474a71b3797eb38f3487d6fb79d43b6877.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n6.88c903d8f9e157d48b73b7777d0642925bcecde7.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n7.02711e6b374660cfc7915d1afc1c204e633421e4.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n7.6dab87426f6b8813070abd79972ceaf2f8d3b012.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.d15c916037fee1656886aab64725534609d62cc8.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n8.c88637171fecf10ab2d88c89dbf06f41a1ae8be5.woff") format("woff");
-}
-@font-face {
-  font-family: Inter;
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n9.5eeac4b640934cb12c98bb58e5b212c8a842a731.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_n9.a68b28f7e46ea1faab81e409809ee4919dd6e3f0.woff") format("woff");
+  src: url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n7.02711e6b374660cfc7915d1afc1c204e633421e4.woff2") format("woff2"),
+       url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n7.6dab87426f6b8813070abd79972ceaf2f8d3b012.woff") format("woff");
 }
 @font-face {
   font-family: Inter;
   font-weight: 400;
   font-style: italic;
   font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_i4.feae1981dda792ab80d117249d9c7e0f1017e5b3.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_i4.62773b7113d5e5f02c71486623cf828884c85c6e.woff") format("woff");
+  src: url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i4.feae1981dda792ab80d117249d9c7e0f1017e5b3.woff2") format("woff2"),
+       url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i4.62773b7113d5e5f02c71486623cf828884c85c6e.woff") format("woff");
 }
 @font-face {
   font-family: Inter;
   font-weight: 700;
   font-style: italic;
   font-display: swap;
-  src: url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_i7.b377bcd4cc0f160622a22d638ae7e2cd9b86ea4c.woff2") format("woff2"),
-       url("/shopify/plantilla26/assets/fonts/xtra-warehouse.myshopify.com/cdn/fonts/inter/inter_i7.7c69a6a34e3bb44fcf6f975857e13b9a9b25beb4.woff") format("woff");
+  src: url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i7.b377bcd4cc0f160622a22d638ae7e2cd9b86ea4c.woff2") format("woff2"),
+       url("/shopify/plantilla26/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i7.7c69a6a34e3bb44fcf6f975857e13b9a9b25beb4.woff") format("woff");
 }
-@font-face { font-family: 'i'; src: url(//xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/xtra.woff2?v=74598006880499421301782204892) format('woff2'), url(//xtra-warehouse.myshopify.com/cdn/shop/t/127/assets/xtra.woff?v=112884414208285247051782204892) format('woff'); font-display: block; }
 `;
 
 export default function HomePage26() {
@@ -348,11 +199,11 @@ export default function HomePage26() {
   useEffect(() => {
     if ((window as any).Shopify) return;
     (window as any).Shopify = {
-      shop: 'xtra-warehouse.myshopify.com',
+      shop: 'concept-theme-tech.myshopify.com',
       country: 'US',
       currency: 'USD',
       locale: 'es',
-      theme: { name: 'Captured Theme', id: '127' },
+      theme: { name: 'Captured Theme', id: '191' },
       routes: { root_url: '/', cart_url: '/cart', search_url: '/search' },
       customerAccountsEnabled: false,
     };

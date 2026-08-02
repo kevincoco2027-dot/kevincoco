@@ -16,30 +16,34 @@ import { useEffect, useRef, useState } from 'react';
 
 const SHOPIFY_BASE = '/shopify/plantilla25/assets';
 
+/* ── Clases reales del <body> del theme original (capturadas por FOLLA) ── */
+const CAPTURED_BODY_CLASS = 'template-index loaded has-modal-opening';
+
 /* ── CSS files: ORDEN CRÍTICO — inline primero, luego core, luego secciones ── */
 const CSS_FILES = [
   `/shopify/plantilla25/assets/css/inline/index-inline-1.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/theme.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/apps.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/newsletter-popup.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/mobile-dock.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/pickup-availability.css`,
-  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/blog.css`
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.css`,
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/apps.css`,
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.css`,
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.css`,
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.css`,
+  `/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/blog.css`
 ];
 
 /* ── JS files: solo los críticos del tema ── */
 type JsFile = { src: string; module?: boolean };
 const JS_FILES: JsFile[] = [
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/vendor.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/theme.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/tab-attention.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/cart.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/gift-wrapping.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/search.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/newsletter-popup.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/mobile-dock.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/pickup-availability.js` },
-  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/instant-page.js` }
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/vendor.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/tab-attention.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/cart.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/gift-wrapping.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/search.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.js` },
+  { src: `/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/instant-page.js`, module: true },
+  { src: `/shopify/plantilla25/assets/js/cdn.shopify.com/storefront/standard-actions.js`, module: true }
 ];
 
 /* ── Font faces ── */
@@ -91,67 +95,48 @@ export default function HomePage25() {
   const [bodyHtml, setBodyHtml] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  /* ── Mark template attribute on document for CSS scoping & add js/body attributes ── */
+  /* ── Mark template attribute on document for CSS scoping ── */
   useEffect(() => {
-    // DocumentElement settings
     document.documentElement.dataset.template = '25';
-    document.documentElement.classList.add('js');
-    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-    document.documentElement.classList.add(isTouch ? 'touch' : 'no-touch');
-
-    // Body settings
-    document.body.classList.add('template-index');
-    document.body.setAttribute('data-rounded-button', 'round');
-    document.body.setAttribute('data-rounded-input', 'round-slight');
-    document.body.setAttribute('data-rounded-block', 'round');
-    document.body.setAttribute('data-rounded-card', 'round');
-    document.body.setAttribute('data-button-hover', 'standard');
-    document.body.setAttribute('data-page-transition', '');
-    document.body.setAttribute('data-lazy-image', '');
-    document.body.setAttribute('data-modal-swipe-only', '');
-    document.body.setAttribute('data-title-animation', '');
-    document.body.setAttribute('data-page-rendering', '');
-
-    return () => {
-      delete document.documentElement.dataset.template;
-      document.documentElement.classList.remove('js', 'touch', 'no-touch');
-      
-      document.body.classList.remove('template-index');
-      document.body.removeAttribute('data-rounded-button');
-      document.body.removeAttribute('data-rounded-input');
-      document.body.removeAttribute('data-rounded-block');
-      document.body.removeAttribute('data-rounded-card');
-      document.body.removeAttribute('data-button-hover');
-      document.body.removeAttribute('data-page-transition');
-      document.body.removeAttribute('data-lazy-image');
-      document.body.removeAttribute('data-modal-swipe-only');
-      document.body.removeAttribute('data-title-animation');
-      document.body.removeAttribute('data-page-rendering');
-    };
+    return () => { delete document.documentElement.dataset.template; };
   }, []);
 
-  /* ── Load custom overrides and font faces ── */
+  /* ── Aplicar clases del <body> original mientras la plantilla está montada (fidelidad) ── */
+  useEffect(() => {
+    if (!CAPTURED_BODY_CLASS) return;
+    const added = CAPTURED_BODY_CLASS.split(/\s+/).filter(c => c && !document.body.classList.contains(c));
+    added.forEach(c => document.body.classList.add(c));
+    return () => { added.forEach(c => document.body.classList.remove(c)); };
+  }, []);
+
+  /* ── Host guard: el CSS global del theme pone el wrapper de YAXSEL (TemplateContext monta
+        <body> > <div class="contents">) en display:none. Solo el inline !important le gana,
+        pero React re-renderiza y lo borra → re-aplicar con MutationObserver + red de seguridad. ── */
+  useEffect(() => {
+    const apply = () => {
+      const wrap = document.querySelector('body > .contents') as HTMLElement | null;
+      if (wrap && wrap.style.getPropertyValue('display') !== 'contents') {
+        wrap.style.setProperty('display', 'contents', 'important');
+      }
+    };
+    apply();
+    // El wrapper lo re-renderiza React (TemplateContext) y el theme lo re-oculta (regla nivel-ID
+    // !important; solo el inline le gana) → re-aplicar. Observer acotado a <body> (no al subtree
+    // del theme, que con GSAP mutaría sin parar) + interval barato como red de seguridad.
+    const obs = new MutationObserver(apply);
+    obs.observe(document.body, { childList: true });
+    const wrap0 = document.querySelector('body > .contents');
+    if (wrap0) obs.observe(wrap0, { attributes: true, attributeFilter: ['style', 'class'] });
+    const iv = window.setInterval(apply, 400);
+    // No removemos el display en cleanup: 'contents' es el valor natural del wrapper de YAXSEL.
+    return () => { obs.disconnect(); window.clearInterval(iv); };
+  }, []);
+
+  /* ── Load font faces ── */
   useEffect(() => {
     const styleEl = document.createElement('style');
-    styleEl.id = 'tpl25-custom-styles';
-    styleEl.textContent = FONT_FACE_CSS + `
-/* Ocultar iconos del menu start (hamburguesa/search de la izquierda) en desktop */
-@media screen and (min-width: 1024px) {
-  .header__icons--start {
-    display: none !important;
-  }
-}
-
-/* Fix Tailwind utilities for newsletter bar */
-.grid {
-  display: grid;
-}
-@media (min-width: 768px) {
-  .md\\:grid {
-    display: grid !important;
-  }
-}
-`;
+    styleEl.id = 'tpl25-fontfaces';
+    styleEl.textContent = FONT_FACE_CSS;
     document.head.appendChild(styleEl);
     return () => { styleEl.remove(); };
   }, []);
@@ -163,7 +148,7 @@ export default function HomePage25() {
       if (existing) return;
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = `${href}?v=${Date.now()}`;
+      link.href = href;
       link.setAttribute('data-tpl25', href);
       document.head.appendChild(link);
     });
@@ -199,131 +184,35 @@ export default function HomePage25() {
     // Remove leftover Shopify elements
     const root = containerRef.current;
     root.querySelectorAll('.fusion-overlay-custom, .fusion-scroll-top, .quickView-popup').forEach(el => el.remove());
+
+    // ⚠️ innerHTML NO ejecuta los <script> inline. Re-crearlos para que corran
+    //    (necesario para configs del theme como window.filepaths = { async_css: ... }).
+    root.querySelectorAll('script:not([src])').forEach(old => {
+      const s = document.createElement('script');
+      for (const a of Array.from(old.attributes)) s.setAttribute(a.name, a.value);
+      s.textContent = old.textContent;
+      old.replaceWith(s);
+    });
   }, [bodyHtml]);
 
-  /* ── Inject window.Shopify and window.theme stubs BEFORE loading JS ── */
+  /* ── Inject window.Shopify stub BEFORE loading JS ── */
   useEffect(() => {
-    if (!(window as any).Shopify) {
-      (window as any).Shopify = {
-        shop: 'concept-theme-tech.myshopify.com',
-        country: 'US',
-        currency: 'USD',
-        locale: 'es',
-        theme: { name: 'Captured Theme', id: '188' },
-        routes: { root_url: '/', cart_url: '/cart', search_url: '/productos' },
-        customerAccountsEnabled: false,
-      };
-    }
-
-    if (!(window as any).theme) {
-      const themeObj: any = {
-        routes: {
-          shop_url: 'https://concept-theme-tech.myshopify.com',
-          root_url: '/',
-          cart_url: '/cart',
-          cart_add_url: '/cart/add',
-          cart_change_url: '/cart/change',
-          cart_update_url: '/cart/update',
-          search_url: '/productos',
-          predictive_search_url: '/search/suggest'
-        },
-        variantStrings: {
-          preOrder: "Pre-order",
-          addToCart: "Add to cart",
-          soldOut: "Sold Out",
-          unavailable: "Unavailable",
-          addToBundle: "Add to bundle",
-          backInStock: "Notify me when it’s available"
-        },
-        shippingCalculatorStrings: {
-          error: "One or more errors occurred while retrieving the shipping rates:",
-          notFound: "Sorry, we do not ship to your address.",
-          oneResult: "There is one shipping rate for your address:",
-          multipleResults: "There are multiple shipping rates for your address:"
-        },
-        discountStrings: {
-          error: "Discount code cannot be applied to your cart",
-          shippingError: "Shipping discounts are shown at checkout after adding an address"
-        },
-        recipientFormStrings: {
-          expanded: "Gift card recipient form expanded",
-          collapsed: "Gift card recipient form collapsed"
-        },
-        quickOrderListStrings: {
-          itemsAdded: "[quantity] items added",
-          itemAdded: "[quantity] item added",
-          itemsRemoved: "[quantity] items removed",
-          itemRemoved: "[quantity] item removed",
-          viewCart: "View cart",
-          each: "[money]/ea",
-          minError: "This item has a minimum of [min]",
-          maxError: "This item has a maximum of [max]",
-          stepError: "You can only add this item in increments of [step]"
-        },
-        cartStrings: {
-          error: "There was an error while updating your cart. Please try again.",
-          quantityError: "You can only add [quantity] of this item to your cart.",
-          giftNoteAttribute: "Gift note",
-          giftWrapAttribute: "Gift wrapping",
-          giftWrapBooleanTrue: "Yes",
-          targetProductAttribute: "For"
-        },
-        dateStrings: {
-          d: "d",
-          day: "Day",
-          days: "Days",
-          h: "h",
-          hour: "Hour",
-          hours: "Hours",
-          m: "m",
-          minute: "Min",
-          minutes: "Mins",
-          s: "s",
-          second: "Sec",
-          seconds: "Secs"
-        },
-        tabAttentionStrings: {
-          firstMessage: "Something we said?",
-          nextMessage: "We're still here!",
-          messageDelay: 3
-        },
-        strings: {
-          recentlyViewedEmpty: "Your recently viewed is empty.",
-          close: "Close",
-          next: "Next",
-          previous: "Previous",
-          qrImageAlt: "QR code — scan to redeem gift card"
-        },
-        settings: {
-          moneyFormat: "${{amount}}",
-          moneyWithCurrencyFormat: "${{amount}} USD",
-          currencyCodeEnabled: false,
-          externalLinksNewTab: false,
-          cartType: "drawer",
-          isCartTemplate: false,
-          pswpModule: "//concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/photoswipe.min.js?v=41760041872977459911778211903",
-          themeName: 'Concept',
-          themeVersion: '5.3.3',
-          agencyId: ''
-        }
-      };
-      (window as any).theme = themeObj;
-      (window as any).themeVariables = themeObj;
-    }
+    if ((window as any).Shopify) return;
+    (window as any).Shopify = {
+      shop: 'concept-theme-tech.myshopify.com',
+      country: 'US',
+      currency: 'USD',
+      locale: 'es',
+      theme: { name: 'Captured Theme', id: '191' },
+      routes: { root_url: '/', cart_url: '/cart', search_url: '/search' },
+      customerAccountsEnabled: false,
+    };
 
     // Intercept fetch/XHR to prevent 404s on /products/* and external APIs
     const origFetch = window.fetch.bind(window);
     window.fetch = function(input: RequestInfo | URL, init?: RequestInit) {
       const url = typeof input === 'string' ? input : input instanceof URL ? input.href : (input as Request).url;
-      const isShopifyPath = 
-        url.startsWith('/products/') || 
-        url.startsWith('/variants/') || 
-        url.startsWith('/cart') || 
-        url.startsWith('/search') || 
-        url.startsWith('/recommendations/') ||
-        ((url.includes('/products/') || url.includes('/variants/') || url.includes('/cart/') || url.includes('/recommendations/')) && !url.includes('/shopify/'));
-      
-      if (isShopifyPath) {
+      if (url.startsWith('/products/') || (url.includes('/products/') && !url.includes('/shopify/'))) {
         return Promise.resolve(new Response(JSON.stringify({}), { status: 200, headers: { 'Content-Type': 'application/json' } }));
       }
       if (url.includes('appwrite.io') || url.includes('nyc.cloud.appwrite')) {
@@ -342,7 +231,7 @@ export default function HomePage25() {
     const loadOne = (file: JsFile) => new Promise<void>((resolve) => {
       if (document.querySelector(`script[data-tpl25="${file.src}"]`)) { resolve(); return; }
       const s = document.createElement('script');
-      s.src = `${file.src}?v=${Date.now()}`;
+      s.src = file.src;
       if (file.module) s.type = 'module';
       else s.async = false;
       s.setAttribute('data-tpl25', file.src);

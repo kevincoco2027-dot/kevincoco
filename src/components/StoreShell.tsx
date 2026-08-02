@@ -28,7 +28,6 @@ const FOOTER_LINKS = [
 ];
 
 import GlobalCanjeBanner from '@/components/GlobalCanjeBanner';
-import PopupBanner from '@/components/PopupBanner';
 
 export default function StoreShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -50,7 +49,6 @@ export default function StoreShell({ children }: { children: React.ReactNode }) 
     <MaintenanceGuard>
     <>
       <GlobalCanjeBanner />
-      {pathname === '/' && <PopupBanner />}
       {!hideNavbarForCapturedLanding && <DynamicNavbar />}
       <PageTransition><main>{children}</main></PageTransition>
       {!hideNativeFooter && (

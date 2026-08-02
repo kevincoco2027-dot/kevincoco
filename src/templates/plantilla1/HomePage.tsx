@@ -19,7 +19,6 @@ import type { Product, TimedOffer, Category } from '@/types';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/hooks/useAuth';
 import { usePrimaryAddress } from '@/hooks/usePrimaryAddress';
-import { useKeniaStatus } from '@/hooks/useKeniaStatus';
 import { useNotifications } from '@/context/NotificationContext';
 import NotificationsOverlay from '@/components/NotificationsOverlay';
 import {
@@ -321,7 +320,7 @@ export default function HomePage1() {
   const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
   const [countdownOffer, setCountdownOffer] = useState<TimedOffer | null>(null);
   const [countdownProduct, setCountdownProduct] = useState<Product | null>(null);
-  const { isEnabled: keniaEnabled } = useKeniaStatus();
+  const keniaEnabled = false;
 
   /* ── Mark template attribute on document for CSS scoping ── */
   useEffect(() => {
@@ -6872,15 +6871,15 @@ export default function HomePage1() {
       if (heroEl) {
         const hs = heroSec.settings || {};
 
-        // Define Kenia's promotional slide as herobanner 2
-        const KENIA_PHONE = '56936599658';
-        const KENIA_WA_URL = `https://wa.me/${KENIA_PHONE}?text=${encodeURIComponent('REGISTRATE CON KENIA')}`;
-        const KENIA_IMG_PC = 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/IADESIGN/2026/06/1781734075685-pegada-1781734073035.png?GoogleAccessId=firebase-adminsdk-fbsvc%40asistoraerp.iam.gserviceaccount.com&Expires=16730334000&Signature=pB3phWWaO5gjCrm5MDeTa4B9yJRxBCfQZZl0hKH8AgvxRAt%2FyIFq1WO3HgT37USBj6GGa9rdB%2Fpq1JSHcoqESCJJdGfG0fY1Nk3UAaHcGWz52EWY1IyW5KUdVmJaAV%2FM2NQTyc4hKr4iwdzibIXrTufp1DiF6HXBkHBRmj1XlsRgBHBgcHnEK7DhNpfuqAjBECpBzIOd0UDKeFbQIaZ2g1JkiWTlUESTS2KnC%2B8A%2FRFbhNy0Q0DvKFkrALylkbR8S39QD%2FFCwuwSA5Qiqyvnuko5FB6MfQuQVmIl51cE%2BveXDd1F2yU6WlaRZCJ4%2BWrR%2FR0phLnbS1GK6PICYm%2BK7Q%3D%3D';
-        const KENIA_IMG_MOBILE = 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/IADESIGN/2026/06/1781734384924-pegada-1781734383088.png?GoogleAccessId=firebase-adminsdk-fbsvc%40asistoraerp.iam.gserviceaccount.com&Expires=16730334000&Signature=vgk%2BhBwoekrfTywuMo4ksekSlWku11fqOigNF3acuZBd4QnkvzpEO%2FtYtJvd1R0dMspS7HsDmjJK6Ph8Tz78L7dUh2IBCDz0yupBP3TtQdDURnXpuzhSGdGzjoCmExz%2BDeMvp8625Vj0LQmZDEMx2Oy0h8j59p%2FCcEr1e3y7RIFueedOKuo8rQxSw%2BDkLaQBd9f1I8t%2FlpmaWjVXl6qPmcX8rMvPtO%2Fk6Saupukz1iWy1byR3Q66SayYKr2ofcBnE3zPpzJ3CgOrexAq1h4%2FQjBjZjbiw%2Fbfbq8LSR9gWj8WkAbDOem%2FgGGXQKBRlYJN77IMX9d0Syu9q4jOZRKt1g%3D%3D';
+        // Define promotional slide as herobanner 2
+        const PROMO_PHONE = '56936599658';
+        const PROMO_WA_URL = `https://wa.me/${PROMO_PHONE}?text=${encodeURIComponent('REGISTRATE')}`;
+        const PROMO_IMG_PC = 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/IADESIGN/2026/06/1781734075685-pegada-1781734073035.png?GoogleAccessId=firebase-adminsdk-fbsvc%40asistoraerp.iam.gserviceaccount.com&Expires=16730334000&Signature=pB3phWWaO5gjCrm5MDeTa4B9yJRxBCfQZZl0hKH8AgvxRAt%2FyIFq1WO3HgT37USBj6GGa9rdB%2Fpq1JSHcoqESCJJdGfG0fY1Nk3UAaHcGWz52EWY1IyW5KUdVmJaAV%2FM2NQTyc4hKr4iwdzibIXrTufp1DiF6HXBkHBRmj1XlsRgBHBgcHnEK7DhNpfuqAjBECpBzIOd0UDKeFbQIaZ2g1JkiWTlUESTS2KnC%2B8A%2FRFbhNy0Q0DvKFkrALylkbR8S39QD%2FFCwuwSA5Qiqyvnuko5FB6MfQuQVmIl51cE%2BveXDd1F2yU6WlaRZCJ4%2BWrR%2FR0phLnbS1GK6PICYm%2BK7Q%3D%3D';
+        const PROMO_IMG_MOBILE = 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/IADESIGN/2026/06/1781734384924-pegada-1781734383088.png?GoogleAccessId=firebase-adminsdk-fbsvc%40asistoraerp.iam.gserviceaccount.com&Expires=16730334000&Signature=vgk%2BhBwoekrfTywuMo4ksekSlWku11fqOigNF3acuZBd4QnkvzpEO%2FtYtJvd1R0dMspS7HsDmjJK6Ph8Tz78L7dUh2IBCDz0yupBP3TtQdDURnXpuzhSGdGzjoCmExz%2BDeMvp8625Vj0LQmZDEMx2Oy0h8j59p%2FCcEr1e3y7RIFueedOKuo8rQxSw%2BDkLaQBd9f1I8t%2FlpmaWjVXl6qPmcX8rMvPtO%2Fk6Saupukz1iWy1byR3Q66SayYKr2ofcBnE3zPpzJ3CgOrexAq1h4%2FQjBjZjbiw%2Fbfbq8LSR9gWj8WkAbDOem%2FgGGXQKBRlYJN77IMX9d0Syu9q4jOZRKt1g%3D%3D';
 
-        const keniaSlide = {
-          imageUrl: KENIA_IMG_PC,
-          mobileImageUrl: KENIA_IMG_MOBILE,
+        const promoSlide = {
+          imageUrl: PROMO_IMG_PC,
+          mobileImageUrl: PROMO_IMG_MOBILE,
           title: '',
           subtitle: '',
           description: '',
@@ -6889,19 +6888,19 @@ export default function HomePage1() {
           btnSecondaryText: '',
           btnSecondaryLink: '',
           alignment: 'center' as const,
-          buttonLink: KENIA_WA_URL,
+          buttonLink: PROMO_WA_URL,
         };
 
         const slides = [...(hs.heroSlides || [])];
         if (keniaEnabled) {
           if (slides.length < 2) {
-            slides.push(keniaSlide);
+            slides.push(promoSlide);
           } else {
             slides[1] = {
               ...slides[1],
-              imageUrl: KENIA_IMG_PC,
-              mobileImageUrl: KENIA_IMG_MOBILE,
-              buttonLink: KENIA_WA_URL,
+              imageUrl: PROMO_IMG_PC,
+              mobileImageUrl: PROMO_IMG_MOBILE,
+              buttonLink: PROMO_WA_URL,
               title: '',
               subtitle: '',
               description: '',
@@ -7415,7 +7414,7 @@ export default function HomePage1() {
               slide.classList.add(`${sl.alignment}-content`);
             }
 
-            // Whole-slide click handler (e.g. for Kenia banner)
+            // Whole-slide click handler (e.g. for promo banner)
             if (sl.buttonLink) {
               slide.style.cursor = 'pointer';
               slide.onclick = (e) => {
@@ -8286,7 +8285,7 @@ export default function HomePage1() {
     );
   }, [bodyHtml, sectionCfg, countdownOffer, countdownProduct]);
 
-  // Removed redundant static Kenia banner injection as it is now integrated as Slide 2 (herobanner 2)
+  // Removed redundant static promo banner injection as it is now integrated as Slide 2 (herobanner 2)
 
   /* ── Fetch products with CURRENTPRICE offers for home carousel ── */
   useEffect(() => {
@@ -8489,11 +8488,11 @@ export default function HomePage1() {
     };
   }, [bodyHtml, sectionCfg, keniaEnabled]);
 
-  /* ── Anular enlaces de WhatsApp de Kenia si está desactivada ── */
+  /* ── Anular enlaces de WhatsApp si está desactivada ── */
   useEffect(() => {
     if (!keniaEnabled) {
-      const keniaLinks = document.querySelectorAll('a[href*="56936599658"]');
-      keniaLinks.forEach((link) => {
+      const promoLinks = document.querySelectorAll('a[href*="56936599658"]');
+      promoLinks.forEach((link) => {
         link.removeAttribute('href');
         link.addEventListener('click', (e) => e.preventDefault());
         (link as HTMLElement).style.cursor = 'default';

@@ -1434,13 +1434,13 @@ export default function PedidoPage() {
 
           {order.STATUS === 'negotiation' && items.some(x => x.missing) && (
             <div className="mt-4 bg-gradient-to-br from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200 rounded-2xl p-5 space-y-4">
-              {/* Kenia AI message */}
+              {/* AI message */}
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-600 flex items-center justify-center text-white text-lg shrink-0 shadow-md">
                   🤖
                 </div>
                 <div className="flex-1">
-                  <p className="font-black text-pink-900 text-sm">¡Hola! Soy Kenia, tu asistente de compras 💕</p>
+                  <p className="font-black text-pink-900 text-sm">¡Hola! Soy tu asistente de compras 💕</p>
                   <p className="text-pink-700 text-xs mt-1 leading-relaxed">
                     Veo que algunos productos de tu pedido no están disponibles. Pero no te preocupes, ¡yo te ayudo! Tienes <span className="font-bold">2 opciones</span>:
                   </p>

@@ -32,7 +32,6 @@ import { getSkuFromFeatures } from '@/lib/product-features';
 import { useAperturaPromotion } from '@/hooks/useAperturaPromotion';
 import { resolveProductDisplayPrice } from '@/lib/apertura-promo';
 import { useStoreSettings } from '@/hooks/useStoreSettings';
-import { useKeniaStatus } from '@/hooks/useKeniaStatus';
 import { getSectionConfigAsync, type SectionConfig } from '@/lib/section-config';
 
 const SHOPIFY_BASE = '/shopify/plantilla23/assets';
@@ -288,7 +287,7 @@ export default function HomePage23() {
       btnLink: '/productos',
     },
     hero2: {
-      // Reemplaza estas URLs si quieres cambiar la imagen de Kenia (Hero 2).
+      // Reemplaza estas URLs si quieres cambiar la imagen del Hero 2.
       desktopImg: 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/KEVIN%26COCO/1783576611119-pegada-1783576608583.png',
       mobileImg: 'https://storage.googleapis.com/asistoraerp.firebasestorage.app/KEVIN%26COCO/1783576469419-pegada-1783576466867.png',
     },
@@ -326,7 +325,7 @@ export default function HomePage23() {
   const [wholesaleOffersContainer, setWholesaleOffersContainer] = useState<Element | null>(null);
   const [offersCarouselContainer, setOffersCarouselContainer] = useState<Element | null>(null);
   const [offersProducts, setOffersProducts] = useState<Product[]>([]);
-  const { isEnabled: keniaEnabled } = useKeniaStatus();
+  const keniaEnabled = false;
   const [themeSections, setThemeSections] = useState<SectionConfig[]>([]);
   const [isThemeConfigLoaded, setIsThemeConfigLoaded] = useState(false);
   const [showWaFloating, setShowWaFloating] = useState(false);
@@ -2709,8 +2708,7 @@ export default function HomePage23() {
     }
 
     // 🎞️ Hero Banner: carrusel de 3 imágenes (fade) controlado por JS propio — sin Swiper.
-    // Maneja crossfade, autoplay (5s), flechas y puntos. El overlay de "Kenia" fue removido:
-    // el hero rota SOLO entre las 3 imágenes.
+    // Maneja crossfade, autoplay (5s), flechas y puntos.
     try {
       const heroSec = containerRef.current.querySelector('[data-id="template--27304712470809__slideshow_FBfKC8"]') as HTMLElement | null;
       const heroBg = heroSec?.querySelector('.slideshow__background') as HTMLElement | null;
@@ -5567,11 +5565,11 @@ export default function HomePage23() {
 
   }, [cartItems, cartTotal, bodyHtml, updateQuantity, removeItem, products, htmlInjected]);
 
-  /* ── Anular enlaces de WhatsApp de Kenia si está desactivada ── */
+  /* ── Anular enlaces de WhatsApp si está desactivada ── */
   useEffect(() => {
     if (!keniaEnabled) {
-      const keniaLinks = document.querySelectorAll('a[href*="56936599658"]');
-      keniaLinks.forEach((link) => {
+      const promoLinks = document.querySelectorAll('a[href*="56936599658"]');
+      promoLinks.forEach((link) => {
         link.removeAttribute('href');
         link.addEventListener('click', (e) => e.preventDefault());
         (link as HTMLElement).style.cursor = 'default';

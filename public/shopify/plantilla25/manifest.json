@@ -2,28 +2,29 @@
   "plantilla": 25,
   "sourceUrl": "https://concept-theme-tech.myshopify.com",
   "shopifyHost": "concept-theme-tech.myshopify.com",
-  "themeId": "188",
-  "capturedAt": "2026-05-31T11:15:08.091Z",
+  "themeId": "191",
+  "capturedAt": "2026-07-25T10:55:38.947Z",
   "css": [
     "/shopify/plantilla25/assets/css/inline/index-inline-1.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/theme.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/apps.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/newsletter-popup.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/mobile-dock.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/pickup-availability.css",
-    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/blog.css"
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.css",
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/apps.css",
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.css",
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.css",
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.css",
+    "/shopify/plantilla25/assets/css/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/blog.css"
   ],
   "js": [
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/vendor.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/theme.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/tab-attention.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/cart.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/gift-wrapping.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/search.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/newsletter-popup.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/mobile-dock.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/pickup-availability.js",
-    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/188/assets/instant-page.js"
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/vendor.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/theme.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/tab-attention.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/cart.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/gift-wrapping.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/search.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/newsletter-popup.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/mobile-dock.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/pickup-availability.js",
+    "/shopify/plantilla25/assets/js/concept-theme-tech.myshopify.com/cdn/shop/t/191/assets/instant-page.js",
+    "/shopify/plantilla25/assets/js/cdn.shopify.com/storefront/standard-actions.js"
   ],
   "fonts": [
     "/shopify/plantilla25/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2",
@@ -37,26 +38,33 @@
     "/shopify/plantilla25/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i7.b377bcd4cc0f160622a22d638ae7e2cd9b86ea4c.woff2",
     "/shopify/plantilla25/assets/fonts/concept-theme-tech.myshopify.com/cdn/fonts/inter/inter_i7.7c69a6a34e3bb44fcf6f975857e13b9a9b25beb4.woff"
   ],
+  "bodyClass": "template-index loaded has-modal-opening",
+  "rootVarsCount": 204,
+  "segmentation": {
+    "sections": 25,
+    "dir": "sections/",
+    "liquid": true
+  },
   "stats": {
     "cssTotal": 6,
-    "jsTotal": 10,
+    "jsTotal": 11,
     "fontsTotal": 10,
     "imagesTotal": 851,
     "videosTotal": 9,
     "svgMasksTotal": 0,
-    "inlineAnimScripts": 2,
+    "inlineAnimScripts": 3,
     "inlineCssKB": 30,
-    "bodyCleanKB": 682,
+    "bodyCleanKB": 688,
     "downloaded": {
       "css": {
-        "ok": 0,
-        "skip": 6,
+        "ok": 6,
+        "skip": 0,
         "fail": 0,
         "errors": []
       },
       "js": {
-        "ok": 0,
-        "skip": 10,
+        "ok": 11,
+        "skip": 0,
         "fail": 0,
         "errors": []
       },
@@ -67,8 +75,8 @@
         "errors": []
       },
       "images": {
-        "ok": 0,
-        "skip": 200,
+        "ok": 4,
+        "skip": 847,
         "fail": 0,
         "errors": []
       },

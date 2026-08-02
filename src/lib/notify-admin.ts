@@ -1,17 +1,10 @@
 'use server';
 
 import { sendWhatsAppMessage, formatWhatsAppPhone, addToHistory } from '@/lib/whatsapp';
-import { getKeniaRuntimeSnapshot } from '@/lib/kenia-runtime';
 
 const ADMIN_FALLBACK_PHONE = '56936599658';
 
 export async function getAdminAlertPhone(): Promise<string> {
-  try {
-    const runtime = await getKeniaRuntimeSnapshot();
-    if (runtime.config?.adminAlertPhone) {
-      return runtime.config.adminAlertPhone;
-    }
-  } catch {}
   return process.env.ADMIN_WHATSAPP_NUMBER || ADMIN_FALLBACK_PHONE;
 }
 
@@ -68,12 +61,7 @@ export async function notifyPaymentUploaded(orderCode: string, customerName: str
   const WA_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN || '';
 
   if (orderId) {
-    try {
-      const { recordKeniaUsage } = await import('@/lib/kenia-runtime');
-      await recordKeniaUsage(formattedPhone, { pendingOrderId: orderId });
-    } catch (e) {
-      console.error('[notifyPaymentUploaded] Failed to record usage:', e);
-    }
+    // orderId tracked elsewhere
   }
 
   if (imageUrl && WA_TOKEN) {

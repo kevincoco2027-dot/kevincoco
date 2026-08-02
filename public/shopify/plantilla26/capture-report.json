@@ -1,8 +1,8 @@
 {
   "plantilla": 26,
-  "sourceUrl": "https://xtra-warehouse.myshopify.com",
-  "capturedAt": "2026-06-29T06:31:50.519Z",
-  "elapsedSeconds": "15.1",
+  "sourceUrl": "https://concept-theme-tech.myshopify.com",
+  "capturedAt": "2026-07-25T10:53:08.634Z",
+  "elapsedSeconds": "28.5",
   "files": {
     "html": "C:\\Proyectos\\PROJECT YAXSEL (PRODUCCION) - 14-06-2026 (3GB)\\public\\shopify\\plantilla26\\index.html",
     "bodyClean": "C:\\Proyectos\\PROJECT YAXSEL (PRODUCCION) - 14-06-2026 (3GB)\\public\\shopify\\plantilla26\\body-clean.html",
@@ -10,43 +10,43 @@
     "tsx": "C:\\Proyectos\\PROJECT YAXSEL (PRODUCCION) - 14-06-2026 (3GB)\\src\\templates\\plantilla26\\HomePage.tsx"
   },
   "stats": {
-    "cssTotal": 25,
-    "jsTotal": 18,
-    "fontsTotal": 22,
-    "imagesTotal": 560,
-    "videosTotal": 1,
+    "cssTotal": 6,
+    "jsTotal": 11,
+    "fontsTotal": 10,
+    "imagesTotal": 851,
+    "videosTotal": 9,
     "svgMasksTotal": 0,
-    "inlineAnimScripts": 2,
-    "inlineCssKB": 61,
-    "bodyCleanKB": 1007,
+    "inlineAnimScripts": 3,
+    "inlineCssKB": 30,
+    "bodyCleanKB": 688,
     "downloaded": {
       "css": {
-        "ok": 0,
-        "skip": 25,
+        "ok": 6,
+        "skip": 0,
         "fail": 0,
         "errors": []
       },
       "js": {
-        "ok": 0,
-        "skip": 18,
+        "ok": 10,
+        "skip": 1,
         "fail": 0,
         "errors": []
       },
       "fonts": {
-        "ok": 0,
-        "skip": 22,
+        "ok": 10,
+        "skip": 0,
         "fail": 0,
         "errors": []
       },
       "images": {
-        "ok": 0,
-        "skip": 560,
+        "ok": 139,
+        "skip": 712,
         "fail": 0,
         "errors": []
       },
       "videos": {
-        "ok": 0,
-        "skip": 1,
+        "ok": 9,
+        "skip": 0,
         "fail": 0,
         "errors": []
       },

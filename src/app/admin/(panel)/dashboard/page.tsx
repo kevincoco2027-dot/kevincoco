@@ -1688,7 +1688,7 @@ export default function DashboardPage() {
             {greeting}, {userName}
             <img 
               src="https://storage.googleapis.com/asistoraerp.firebasestorage.app/IADESIGN/2026/06/1781844152550-pegada-1781844145289.png?GoogleAccessId=firebase-adminsdk-fbsvc%40asistoraerp.iam.gserviceaccount.com&Expires=16730334000&Signature=SfrE7ZUCdWW0i%2FYWztIYRhbwTcByM7bthoiQc%2FjPQJEXV1fT4J3jmJCJlDsf01pffNwLLUfmmc6XeKYBIPqcXPVTVsdSPvigAxDkEEJgz4Lc9jEs0t9YOpd5BagWiOrWXG1yDBfozFypuodOyeO%2FJKDoPY3QKhP9t8yWGEd2NprwzaEbAd%2BclP90ZkGhmEuWdeDwJbW07QNIiC2NLo4wlAegxL2%2FDMIYBd2DGMAgP5Zo8EjA17BT690P%2BBGBJOuTYpsynxXe7KvdlBt7JVVoJoLHP525kpVVu8O5Wp0rEKpPaRUx0dCx%2BC7H1tTOKes0UDrp%2BW7T7HeRnMoDXvFWWA%3D%3D" 
-              alt="Kenia Alert" 
+              alt="Alert" 
               style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', objectFit: 'cover' }} 
               className={`db-icon db-icon-${dashStatus}`} 
             />

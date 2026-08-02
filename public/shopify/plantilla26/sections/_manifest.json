@@ -1,155 +1,219 @@
 {
   "plantilla": 26,
-  "generatedAt": "2026-06-29T06:31:50.494Z",
+  "generatedAt": "2026-07-25T10:53:08.594Z",
   "note": "Editá sections/*.html y recompilá con: node shopify-folla.js join 26",
   "parts": [
     {
       "order": 0,
       "role": "prelude",
       "file": "000-_prelude.html",
-      "bytes": 766
+      "bytes": 3272
     },
     {
       "order": 10,
       "role": "section",
-      "name": "announcement",
-      "id": "shopify-section-sections--21952070713590__announcement",
-      "file": "010-announcement.html",
-      "bytes": 1044
+      "name": "announcement-bar",
+      "id": "shopify-section-sections--27619502031129__announcement-bar",
+      "file": "010-announcement-bar.html",
+      "bytes": 17232
     },
     {
       "order": 20,
       "role": "section",
       "name": "header",
-      "id": "shopify-section-sections--21952070713590__header",
+      "id": "shopify-section-sections--27619502031129__header",
       "file": "020-header.html",
-      "bytes": 784398
+      "bytes": 34269
     },
     {
       "order": 30,
       "role": "section",
-      "name": "side-cart",
-      "id": "shopify-section-sections--21952071434486__side-cart",
-      "file": "030-side-cart.html",
-      "bytes": 465
+      "name": "cart-drawer",
+      "id": "shopify-section-sections--27619503472921__cart-drawer",
+      "file": "030-cart-drawer.html",
+      "bytes": 30034
     },
     {
       "order": 40,
       "role": "section",
-      "name": "shop-the-look-drawer",
-      "id": "shopify-section-sections--21952071434486__shop-the-look-drawer",
-      "file": "040-shop-the-look-drawer.html",
-      "bytes": 498
+      "name": "search-drawer",
+      "id": "shopify-section-sections--27619503472921__search-drawer",
+      "file": "040-search-drawer.html",
+      "bytes": 5300
     },
     {
       "order": 50,
       "role": "section",
-      "name": "section_grid_yycxme",
-      "id": "shopify-section-template--21952075268342__section_grid_yyCXme",
-      "file": "050-section_grid_yycxme.html",
-      "bytes": 11467
+      "name": "newsletter-popup",
+      "id": "shopify-section-sections--27619503472921__newsletter-popup",
+      "file": "050-newsletter-popup.html",
+      "bytes": 16689
     },
     {
       "order": 60,
       "role": "section",
-      "name": "1653391228084c834a",
-      "id": "shopify-section-template--21952075268342__1653391228084c834a",
-      "file": "060-1653391228084c834a.html",
-      "bytes": 15740
+      "name": "mobile-dock",
+      "id": "shopify-section-sections--27619503472921__mobile-dock",
+      "file": "060-mobile-dock.html",
+      "bytes": 9258
     },
     {
       "order": 70,
       "role": "section",
-      "name": "16603001534a9c90c9",
-      "id": "shopify-section-template--21952075268342__16603001534a9c90c9",
-      "file": "070-16603001534a9c90c9.html",
-      "bytes": 44157
+      "name": "slideshow",
+      "id": "shopify-section-template--27619508257049__slideshow",
+      "file": "070-slideshow.html",
+      "bytes": 18428
     },
     {
       "order": 80,
       "role": "section",
-      "name": "16548652677db3e33c",
-      "id": "shopify-section-template--21952075268342__16548652677db3e33c",
-      "file": "080-16548652677db3e33c.html",
-      "bytes": 7836
+      "name": "f011eebd-a8bf-4951-afe0-e5120fd76a1d",
+      "id": "shopify-section-template--27619508257049__f011eebd-a8bf-4951-afe0-e5120fd76a1d",
+      "file": "080-f011eebd-a8bf-4951-afe0-e5120fd76a1d.html",
+      "bytes": 2337
     },
     {
       "order": 90,
       "role": "section",
-      "name": "166030001712c7cb2b",
-      "id": "shopify-section-template--21952075268342__166030001712c7cb2b",
-      "file": "090-166030001712c7cb2b.html",
-      "bytes": 79807
+      "name": "ef807058-6610-4581-89ab-9325098bd616",
+      "id": "shopify-section-template--27619508257049__ef807058-6610-4581-89ab-9325098bd616",
+      "file": "090-ef807058-6610-4581-89ab-9325098bd616.html",
+      "bytes": 18861
     },
     {
       "order": 100,
       "role": "section",
-      "name": "16620576959f001826",
-      "id": "shopify-section-template--21952075268342__16620576959f001826",
-      "file": "100-16620576959f001826.html",
-      "bytes": 8610
+      "name": "836190ae-9193-4a52-91a5-e807d0417201",
+      "id": "shopify-section-template--27619508257049__836190ae-9193-4a52-91a5-e807d0417201",
+      "file": "100-836190ae-9193-4a52-91a5-e807d0417201.html",
+      "bytes": 10528
     },
     {
       "order": 110,
       "role": "section",
-      "name": "section_image_hotspots_qffpmj",
-      "id": "shopify-section-template--21952075268342__section_image_hotspots_qffPmj",
-      "file": "110-section_image_hotspots_qffpmj.html",
-      "bytes": 12382
+      "name": "5a2a4051-042d-48d7-955c-dc7a08cd5474",
+      "id": "shopify-section-template--27619508257049__5a2a4051-042d-48d7-955c-dc7a08cd5474",
+      "file": "110-5a2a4051-042d-48d7-955c-dc7a08cd5474.html",
+      "bytes": 106868
     },
     {
       "order": 120,
       "role": "section",
-      "name": "1653468546493c13a2",
-      "id": "shopify-section-template--21952075268342__1653468546493c13a2",
-      "file": "120-1653468546493c13a2.html",
-      "bytes": 7814
+      "name": "f2e92fa2-5b20-410e-8bf3-110086f3e646",
+      "id": "shopify-section-template--27619508257049__f2e92fa2-5b20-410e-8bf3-110086f3e646",
+      "file": "120-f2e92fa2-5b20-410e-8bf3-110086f3e646.html",
+      "bytes": 5788
     },
     {
       "order": 130,
       "role": "section",
-      "name": "section_slideshow_bkarxg",
-      "id": "shopify-section-template--21952075268342__section_slideshow_bKaRxG",
-      "file": "130-section_slideshow_bkarxg.html",
-      "bytes": 4870
+      "name": "rich-text-2",
+      "id": "shopify-section-template--27619508257049__rich-text-2",
+      "file": "130-rich-text-2.html",
+      "bytes": 1951
     },
     {
       "order": 140,
       "role": "section",
-      "name": "16548654705529ee49",
-      "id": "shopify-section-template--21952075268342__16548654705529ee49",
-      "file": "140-16548654705529ee49.html",
-      "bytes": 2715
+      "name": "product-bundle",
+      "id": "shopify-section-template--27619508257049__product-bundle",
+      "file": "140-product-bundle.html",
+      "bytes": 143022
     },
     {
       "order": 150,
       "role": "section",
-      "name": "78836e0a-6131-4f01-afff-dbdd186d0914",
-      "id": "shopify-section-template--21952075268342__78836e0a-6131-4f01-afff-dbdd186d0914",
-      "file": "150-78836e0a-6131-4f01-afff-dbdd186d0914.html",
-      "bytes": 911
+      "name": "e117c85b-3b93-409d-97ff-0cae96787927",
+      "id": "shopify-section-template--27619508257049__e117c85b-3b93-409d-97ff-0cae96787927",
+      "file": "150-e117c85b-3b93-409d-97ff-0cae96787927.html",
+      "bytes": 1302
     },
     {
       "order": 160,
       "role": "section",
-      "name": "165346832322a4db6f",
-      "id": "shopify-section-template--21952075268342__165346832322a4db6f",
-      "file": "160-165346832322a4db6f.html",
-      "bytes": 1031
+      "name": "shop-the-feed",
+      "id": "shopify-section-template--27619508257049__shop-the-feed",
+      "file": "160-shop-the-feed.html",
+      "bytes": 41063
     },
     {
       "order": 170,
       "role": "section",
-      "name": "footer",
-      "id": "shopify-section-sections--21952070648054__footer",
-      "file": "170-footer.html",
-      "bytes": 34075
+      "name": "1f654104-735a-4e2a-803f-0983db2abb42",
+      "id": "shopify-section-template--27619508257049__1f654104-735a-4e2a-803f-0983db2abb42",
+      "file": "170-1f654104-735a-4e2a-803f-0983db2abb42.html",
+      "bytes": 5487
     },
     {
       "order": 180,
+      "role": "section",
+      "name": "d6a52dab-0c76-491b-b74f-c73aea01e13d",
+      "id": "shopify-section-template--27619508257049__d6a52dab-0c76-491b-b74f-c73aea01e13d",
+      "file": "180-d6a52dab-0c76-491b-b74f-c73aea01e13d.html",
+      "bytes": 34057
+    },
+    {
+      "order": 190,
+      "role": "section",
+      "name": "49f8726b-1fe7-4a99-abb6-d7e63aaf544d",
+      "id": "shopify-section-template--27619508257049__49f8726b-1fe7-4a99-abb6-d7e63aaf544d",
+      "file": "190-49f8726b-1fe7-4a99-abb6-d7e63aaf544d.html",
+      "bytes": 6043
+    },
+    {
+      "order": 200,
+      "role": "section",
+      "name": "1ac0669d-9704-4972-932f-65e1220ad853",
+      "id": "shopify-section-template--27619508257049__1ac0669d-9704-4972-932f-65e1220ad853",
+      "file": "200-1ac0669d-9704-4972-932f-65e1220ad853.html",
+      "bytes": 121237
+    },
+    {
+      "order": 210,
+      "role": "section",
+      "name": "2b953df0-1be3-4463-ba29-1f87f345dcc9",
+      "id": "shopify-section-template--27619508257049__2b953df0-1be3-4463-ba29-1f87f345dcc9",
+      "file": "210-2b953df0-1be3-4463-ba29-1f87f345dcc9.html",
+      "bytes": 9602
+    },
+    {
+      "order": 220,
+      "role": "section",
+      "name": "b961e2b0-2f28-45fb-9664-549114d9a961",
+      "id": "shopify-section-template--27619508257049__b961e2b0-2f28-45fb-9664-549114d9a961",
+      "file": "220-b961e2b0-2f28-45fb-9664-549114d9a961.html",
+      "bytes": 17039
+    },
+    {
+      "order": 230,
+      "role": "section",
+      "name": "f3e9ffff-1f79-498f-bb2e-cbab7dd0984b",
+      "id": "shopify-section-sections--27619501965593__f3e9ffff-1f79-498f-bb2e-cbab7dd0984b",
+      "file": "230-f3e9ffff-1f79-498f-bb2e-cbab7dd0984b.html",
+      "bytes": 8864
+    },
+    {
+      "order": 240,
+      "role": "section",
+      "name": "footer",
+      "id": "shopify-section-sections--27619501965593__footer",
+      "file": "240-footer.html",
+      "bytes": 12540
+    },
+    {
+      "order": 250,
+      "role": "section",
+      "name": "footer-copyright",
+      "id": "shopify-section-sections--27619501965593__footer-copyright",
+      "file": "250-footer-copyright.html",
+      "bytes": 17767
+    },
+    {
+      "order": 260,
       "role": "tail",
-      "file": "180-_tail.html",
-      "bytes": 12568
+      "file": "260-_tail.html",
+      "bytes": 5374
     }
   ]
 }
