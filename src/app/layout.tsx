@@ -7,7 +7,6 @@ import { TemplateProvider } from '@/context/TemplateContext';
 import { AuthProvider } from '@/hooks/useAuth';
 import { FavoritesProvider } from '@/context/FavoritesContext';
 import StoreShell from '@/components/StoreShell';
-import ChatBot from '@/components/ChatBot';
 import BackToTop from '@/components/BackToTop';
 import { ToastProvider } from '@/components/Toast';
 import { NotificationProvider } from '@/context/NotificationContext';
