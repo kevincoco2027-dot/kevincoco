@@ -48,7 +48,7 @@ export async function recordKeniaUsage(phone: string, patch: Partial<AiUsage> & 
   return updated;
 }
 
-export async function setKeniaBlocked(phone: string, blocked: boolean): Promise<void> {
+export async function setKeniaBlocked(phone: string, blocked: boolean, _reason?: string): Promise<void> {
   if (blocked) {
     if (!aiConfig.blockedPhones) aiConfig.blockedPhones = [];
     if (!aiConfig.blockedPhones.includes(phone)) aiConfig.blockedPhones.push(phone);
