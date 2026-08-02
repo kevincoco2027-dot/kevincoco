@@ -26,6 +26,7 @@ export interface AiUsage {
   spamBlocked?: boolean;
   lastStallReplyTs?: number;
   messageCount?: number;
+  customerName?: string;
 }
 
 export function estimateTokensFromText(text: string): number {
