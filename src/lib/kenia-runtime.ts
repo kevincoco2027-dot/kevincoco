@@ -8,6 +8,7 @@ export interface AiConfig {
   blockedPhones?: string[];
   adminAlertPhone?: string;
   testAsClient?: boolean;
+  isEnabled?: boolean;
 }
 
 export interface AiUsage {
