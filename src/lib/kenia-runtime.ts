@@ -27,6 +27,17 @@ export interface AiUsage {
   lastStallReplyTs?: number;
   messageCount?: number;
   customerName?: string;
+  isRegistered?: boolean;
+  isGuestWithOrders?: boolean;
+  awaitingAltPhone?: boolean;
+  welcomeShown?: boolean;
+  adminTakeover?: boolean;
+  registerPromptedAt?: number;
+  lastMessageTimestamps?: number[];
+  escalated?: boolean;
+  promptTokens?: number;
+  responseTokens?: number;
+  totalTokens?: number;
 }
 
 export function estimateTokensFromText(text: string): number {
